@@ -173,3 +173,13 @@ description: >
 - cheatsheet.md — 快捷键、函数速查、一步构造卡
 - references/案例库-cheatsheet.md — 案例库：工具选择决策表 + 案例→教学场景对照 + 课件编号速查
 - glossary.md — 术语表
+
+## 发布与分发
+
+- **GitHub 仓库**：https://github.com/dxy0905/netpad-drawing-skill （PUBLIC，MIT 许可，邱数智方教育部出品）
+- **真源目录**：`D:\邱数智方\教育部\灵动数图项目\画图.skill` —— 本机四端（Claude Code / Cursor / Codex / Hermes）均以 Junction/软链接指向此目录，**改此目录即四端同步生效**
+- **一键安装**：仓库内 `scripts/install.ps1`（Windows）/ `scripts/install.sh`（Linux/macOS/git-bash）
+  - 参数：`-Agent`(all/claude/cursor/codex/hermes) / `-Dest` 自定义目录 / `-Source` 自定义源 / `-Copy` 复制模式 / `-Uninstall` 卸载
+- **更新流程**：改真源 `D:\邱数智方\教育部\灵动数图项目\画图.skill` → 四端 Junction 立即生效（无需重装）→ 若要发布到 GitHub，在发布仓库执行 `bash scripts/sync-publish.sh`（真源→仓库同步并推送）
+- **注意**：真源目录本身不是 git 仓库；GitHub 仓库是独立发布副本，靠同步脚本保持一致
+- **版本**：v3（2026-10-18，并入案例库形成方法+案例一体；同日发布 GitHub + 加装四端 + 一键安装脚本）
