@@ -72,14 +72,19 @@ git commit -q -m "同步真源更新 ($STAMP)
 差异: $diff_count 处文件"
 echo "✅ 已提交: $(git log --oneline -1)"
 
-# 推送（重试 3 次，应对大陆网络抖动）
+# 推送（大陆网络注意：DNS 常把 github.com 解析到被封IP，优先用 SSH 通道）
 for i in 1 2 3; do
-  if git push origin main 2>/dev/null; then
+  err=$(git push origin main 2>&1) && {
     echo "✅ 已推送到 GitHub: https://github.com/dxy0905/netpad-drawing-skill"
     exit 0
+  }
+  echo "⚠ 第 $i 次推送失败: $(echo "$err" | tail -1)"
+  # 连续两次失败就提示切 SSH（DNS污染/443重置的根治办法）
+  if [ "$i" -eq 2 ]; then
+    echo "  提示: 若为 DNS 污染/连接重置，执行:"
+    echo "  git remote set-url origin ssh://git@ssh.github.com:443/dxy0905/netpad-drawing-skill.git"
   fi
-  echo "⚠ 第 $i 次推送失败，5 秒后重试..."
-  sleep 5
+  [ "$i" -lt 3 ] && sleep 5
 done
 echo "❌ 推送三次均失败（本地已提交，可稍后手动 git push）" >&2
 exit 1
