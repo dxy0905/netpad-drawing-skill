@@ -34,14 +34,48 @@
 
 ## 快速开始
 
-### 安装
+### 方式一：一键脚本安装（推荐）
 
-把 `画图.skill/` 整个目录放入你 Agent 的 skills 目录（不同 Agent 位置不同）：
+```bash
+# 克隆仓库
+git clone https://github.com/dxy0905/netpad-drawing-skill.git
+cd netpad-drawing-skill
 
-- **Claude Code**: `~/.claude/skills/`
-- **Cursor**: `~/.cursor/skills/`
-- **Codex**: `~/.codex/skills/`（或 `CODEX_HOME` 指向的目录）
-- **Hermes**: `~/AppData/Local/hermes/skills/`（Windows）
+# Windows PowerShell
+.\scripts\install.ps1                    # 自动探测所有 Agent
+.\scripts\install.ps1 -Agent cursor      # 只装 Cursor
+.\scripts\install.ps1 -Uninstall         # 卸载
+
+# Linux / macOS / Windows git-bash
+bash scripts/install.sh                  # 自动探测所有 Agent
+bash scripts/install.sh --agent claude   # 只装 Claude Code
+bash scripts/install.sh --uninstall      # 卸载
+```
+
+参数说明：
+
+| 参数 (ps1 / sh) | 说明 |
+|---|---|
+| `-Agent` / `--agent` | `all`(默认) / `claude` / `cursor` / `codex` / `hermes` |
+| `-Dest` / `--dest` | 自定义 skills 目录路径 |
+| `-Source` / `--source` | 指定 skill 源目录（默认用仓库内的） |
+| `-Copy` / `--copy` | 复制模式（默认是链接模式 Junction/symlink） |
+| `-Uninstall` / `--uninstall` | 卸载（只删链接/副本，不删源） |
+
+**链接模式 vs 复制模式**：
+- **链接模式（默认）**：装的是指向源的 Junction/软链接，**更新源目录即所有 Agent 同步生效**，推荐。
+- **复制模式**：各 Agent 独立副本，源更新后需重新安装。
+
+### 方式二：手动安装
+
+把 `画图.skill/` 整个目录放入你 Agent 的 skills 目录：
+
+| Agent | skills 目录 |
+|---|---|
+| Claude Code | `~/.claude/skills/` |
+| Cursor | `~/.cursor/skills/` |
+| Codex | `$CODEX_HOME/skills/`（默认 `~/.codex/skills/`） |
+| Hermes | Windows: `%LOCALAPPDATA%\hermes\skills\`<br>Linux: `~/.local/share/hermes/skills/` |
 
 ### 使用（触发词）
 
